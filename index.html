@@ -145,17 +145,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Estilos específicos de los Créditos */
-        .credits-list {
+        /* Estilos específicos de las listas (Créditos e Instrucciones) */
+        .credits-list, .instrucciones-list {
             list-style: none;
             padding: 0;
             line-height: 1.8;
             font-size: 1.1rem;
         }
 
-        .credits-list span {
+        .credits-list span, .instrucciones-list strong {
             color: var(--highlight);
             font-weight: bold;
+        }
+
+        .instrucciones-list li {
+            margin-bottom: 1.2rem;
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-left: 4px solid var(--highlight);
+            border-radius: 4px;
         }
 
         /* Estilos del texto de teoría */
@@ -196,6 +204,7 @@
             .logo-right { right: 10px; }
             .logo-left img, .logo-right img { height: 50px; }
             header { padding-top: 5rem; }
+            .instrucciones-list li { padding: 10px; }
         }
     </style>
 </head>
@@ -273,11 +282,19 @@
 
     <!-- SECCIÓN 3: INSTRUCCIONES -->
     <div id="instrucciones" class="section-container">
-        <h3 style="color: var(--highlight);">¿Cómo usar el simulador?</h3>
-        <p>1. Ajusta los valores de la corriente y la longitud del conductor.</p>
-        <p>2. Modifica la intensidad y dirección del campo magnético.</p>
-        <p>3. Observa el vector de fuerza resultante en el modelo 3D.</p>
-        <button class="btn-continue" onclick="window.open('https://luismi140905.github.io/Simuladores-practicas/', '_blank')">Abrir Simulador ➔</button>
+        <h3 style="color: var(--highlight); border-bottom: 1px solid var(--accent-color); padding-bottom: 10px;">¿Cómo usar el simulador interactivo?</h3>
+        
+        <ul class="instrucciones-list">
+            <li><strong>Mover la cámara 3D:</strong> Haz clic y arrastra sobre la pantalla (o desliza tu dedo en el celular) para girar alrededor del experimento. Usa la rueda del ratón (o pellizca la pantalla) para acercarte o alejarte.</li>
+            
+            <li><strong>Modificar variables:</strong> Usa los controles deslizantes del panel para cambiar la <strong>Corriente (I)</strong>, la <strong>Longitud (L)</strong> del conductor y la <strong>Magnitud del campo magnético (B)</strong>. Verás cómo el modelo 3D responde en tiempo real a tus ajustes (También puedes usar los botones de la fuente).</li>
+            
+            <li><strong>Cambiar la polaridad:</strong> Presiona el botón verde de "Invertir sentido de la corriente" para cambiar la dirección del flujo. Observa atentamente qué ocurre con el vector resultante.</li>
+            
+            <li><strong>Lectura de datos:</strong> En la parte inferior del panel, el simulador calculará automáticamente la <strong>Fuerza Magnética</strong> resultante en Newtons. La flecha verde sobre el conductor representa gráficamente esta fuerza.</li>
+        </ul>
+
+        <button class="btn-continue" onclick="window.open('https://luismi140905.github.io/Simuladores-practicas/', '_blank')" style="margin-top: 3rem;">Abrir Simulador ➔</button>
     </div>
 
     <script>
