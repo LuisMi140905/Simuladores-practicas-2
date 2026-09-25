@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuerza de origen magnético sobre conductores</title>
+    
+    <!-- Script para renderizar fórmulas matemáticas profesionales (LaTeX) -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0b132b;
+            --panel-bg: #1c2541;
+            --accent-color: #3a506b;
+            --highlight: #a3e635; /* Verde lima del simulador */
+            --text-color: #e0e1dd;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at center, #1c2541 0%, #0b132b 100%);
+            position: relative;
+        }
+
+        /* Contenedor Escudo UNAM (Izquierda) */
+        .logo-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        /* Contenedor Escudo FI (Derecha) */
+        .logo-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            mix-blend-mode: screen; 
+        }
+
+        .logo-left img, .logo-right img {
+            height: 75px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-left img:hover, .logo-right img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Filtro para el escudo de la UNAM (SVG Transparente) */
+        .logo-left img {
+            filter: brightness(0) invert(1) drop-shadow(0px 0px 5px rgba(255,255,255,0.3));
+        }
+
+        /* Filtro para el escudo de la FI (PNG con fondo blanco): Solo invierte colores */
+        .logo-right img {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 1rem 1rem 1rem; 
+        }
+
+        h1 {
+            color: var(--highlight);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            max-width: 800px;
+        }
+
+        /* Menú de navegación */
+        .nav-menu {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--accent-color);
+            border-color: var(--highlight);
+            box-shadow: 0 0 10px rgba(163, 230, 53, 0.4);
+        }
+
+        /* Contenedores de secciones */
+        .section-container {
+            display: none;
+            background-color: rgba(28, 37, 65, 0.8);
+            border: 1px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 2.5rem;
+            width: 80%;
+            max-width: 900px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.4s ease-in-out;
+            margin-bottom: 2rem;
+        }
+
+        .section-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos específicos de los Créditos */
+        .credits-list {
+            list-style: none;
+            padding: 0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .credits-list span {
+            color: var(--highlight);
+            font-weight: bold;
+        }
+
+        /* Estilos del texto de teoría */
+        .teoria-texto {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .teoria-texto p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Botón de continuar */
+        .btn-continue {
+            display: block;
+            margin: 2rem auto 0 auto;
+            background-color: var(--highlight);
+            color: #1e293b;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-continue:hover {
+            transform: scale(1.05);
+            background-color: #d9f99d;
+        }
+
+        /* Contenedor del Iframe del simulador */
+        .iframe-container {
+            width: 100%;
+            height: 650px;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Ajuste responsivo para celulares */
+        @media (max-width: 768px) {
+            .logo-left, .logo-right { top: 15px; }
+            .logo-left { left: 10px; }
+            .logo-right { right: 10px; }
+            .logo-left img, .logo-right img { height: 50px; }
+            header { padding-top: 5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Escudo UNAM (Izquierda) -->
+    <div class="logo-left">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Escudo-UNAM-escalable.svg" alt="Escudo UNAM">
+    </div>
+
+    <!-- Escudo FI Local (Derecha) -->
+    <div class="logo-right">
+        <img src="logo_fi.png" alt="Escudo Facultad de Ingeniería">
+    </div>
+
+    <header>
+        <h1>Fuerza de origen magnético sobre conductores</h1>
+    </header>
+
+    <div class="nav-menu">
+        <button class="nav-btn active" onclick="showSection('inicio')">1. Inicio</button>
+        <button class="nav-btn" onclick="showSection('teoria')">2. Teoría</button>
+        <button class="nav-btn" onclick="showSection('instrucciones')">3. Instrucciones</button>
+        <button class="nav-btn" onclick="showSection('simulador')">4. Simulador ➔</button>
+    </div>
+
+    <!-- SECCIÓN 1: INICIO -->
+    <div id="inicio" class="section-container active">
+        <h3 style="color: var(--highlight); border-bottom: 1px solid var(--accent-color); padding-bottom: 10px; text-align: center;">Datos de la Práctica</h3>
+        
+        <ul class="credits-list" style="text-align: center;">
+            <li style="font-size: 1.2rem; margin-bottom: 0.5rem; display: block;"><span>Universidad Nacional Autónoma de México (UNAM)</span></li>
+            <li><span>Facultad de Ingeniería</span></li>
+            <li><span>División de Ciencias Básicas</span></li>
+            <li><span>Laboratorio de Electricidad y Magnetismo</span></li>
+        </ul>
+
+        <!-- Espacio para la imagen de la práctica -->
+        <div style="text-align: center; margin: 2rem 0;">
+            <img src="tu_imagen.jpg" alt="Esquema o imagen representativa de la práctica" style="max-width: 80%; height: auto; border-radius: 8px; border: 1px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.4);">
+        </div>
+
+        <h3 style="color: var(--highlight); border-bottom: 1px solid var(--accent-color); padding-bottom: 10px; margin-top: 2rem; text-align: center;">Desarrollo</h3>
+        <ul class="credits-list" style="text-align: center;">
+            <li>Luis Miguel Pérez Acolt</li>
+            <li>Valeria Estefanía Urrutia Ortuño</li>
+        </ul>
+
+        <button class="btn-continue" onclick="showSection('teoria')">Continuar a la Teoría</button>
+    </div>
+
+    <!-- SECCIÓN 2: TEORÍA -->
+    <div id="teoria" class="section-container">
+        <h3 style="color: var(--highlight);">Marco Teórico: Fuerza Magnética</h3>
+        
+        <div class="teoria-texto">
+            <p>Sabemos que una carga eléctrica crea un campo eléctrico y que éste es capaz de ejercer una fuerza sobre otra carga. Un campo magnético ejerce una fuerza sobre una carga siempre y cuando esta última esté en movimiento. Podemos afirmar que una carga genera un campo magnético solo cuando está en movimiento.</p>
+            
+            <p>La fuerza de origen magnético (\(\vec{F}_m\)) que experimenta una carga (\(q\)) en movimiento, se puede calcular con la expresión (obtenida experimentalmente):</p>
+            
+            <p style="text-align: center; font-size: 1.3rem;">
+                \(\vec{F}_m = q(\vec{v} \times \vec{B})\)
+            </p>
+            
+            <p>en la que \(\vec{v}\) es la velocidad de dicha carga y \(\vec{B}\) es el campo magnético en el que se halla inmersa. A partir de esta expresión, resulta sencillo determinar la fuerza magnética que experimenta un conductor con corriente eléctrica cuando éste se halla inmerso en un campo magnético.</p>
+            
+            <p>Con base en lo anterior, podemos tener una configuración en la que se tienen fuerzas de interacción entre conductores con corriente, las cuales desempeñan un papel importante en muchas situaciones prácticas en las que los conductores con corriente se hallan muy cerca uno del otro; inclusive esta configuración tiene un papel relevante asociada a la definición de la unidad del Sistema Internacional denominada <strong>ampere</strong>. Cada conductor se encuentra en el campo magnético producido por el otro, por lo que cada uno experimenta una fuerza.</p>
+            
+            <p>Vale la pena destacar que, adicionalmente, lo anterior es el principio básico de funcionamiento de un motor eléctrico, así como del instrumento de medición denominado multímetro.</p>
+        </div>
+
+        <button class="btn-continue" onclick="showSection('instrucciones')">Continuar a las Instrucciones</button>
+    </div>
+
+    <!-- SECCIÓN 3: INSTRUCCIONES -->
+    <div id="instrucciones" class="section-container">
+        <h3 style="color: var(--highlight);">¿Cómo usar el simulador?</h3>
+        <p>1. Ajusta los valores de la corriente y la longitud del conductor.</p>
+        <p>2. Modifica la intensidad y dirección del campo magnético.</p>
+        <p>3. Observa el vector de fuerza resultante en el modelo 3D.</p>
+        <button class="btn-continue" onclick="showSection('simulador')">Ir al Simulador</button>
+    </div>
+
+    <!-- SECCIÓN 4: SIMULADOR -->
+    <div id="simulador" class="section-container" style="width: 95%; max-width: 1200px;">
+        <div class="iframe-container">
+            <iframe src="https://luismi140905.github.io/Simuladores-practicas/" title="Simulador de Fuerza Magnética"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section-container').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            const buttons = document.querySelectorAll('.nav-btn');
+            for(let btn of buttons) {
+                if(btn.getAttribute('onclick').includes(sectionId)) {
+                    btn.classList.add('active');
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
