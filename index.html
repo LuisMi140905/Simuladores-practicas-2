@@ -59,12 +59,12 @@
             transform: scale(1.05);
         }
 
-        /* Filtro para el escudo de la UNAM */
+        /* Filtro para el escudo de la UNAM (SVG Transparente) */
         .logo-left img {
             filter: brightness(0) invert(1) drop-shadow(0px 0px 5px rgba(255,255,255,0.3));
         }
 
-        /* Filtro para el escudo de la FI */
+        /* Filtro para el escudo de la FI (PNG con fondo blanco): Solo invierte colores */
         .logo-right img {
             filter: invert(1);
             opacity: 0.9;
@@ -108,7 +108,7 @@
             border-color: var(--highlight);
             box-shadow: 0 0 10px rgba(163, 230, 53, 0.4);
         }
-        
+
         /* Estilo especial para destacar el botón del simulador */
         .btn-simulador {
             background-color: var(--highlight);
@@ -201,10 +201,12 @@
 </head>
 <body>
 
-    <!-- Escudos -->
+    <!-- Escudo UNAM (Izquierda) -->
     <div class="logo-left">
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Escudo-UNAM-escalable.svg" alt="Escudo UNAM">
     </div>
+
+    <!-- Escudo FI Local (Derecha) -->
     <div class="logo-right">
         <img src="logo_fi.png" alt="Escudo Facultad de Ingeniería">
     </div>
@@ -217,7 +219,7 @@
         <button class="nav-btn active" onclick="showSection('inicio')">1. Inicio</button>
         <button class="nav-btn" onclick="showSection('teoria')">2. Teoría</button>
         <button class="nav-btn" onclick="showSection('instrucciones')">3. Instrucciones</button>
-        <!-- Este botón ahora abre el enlace en una nueva pestaña -->
+        <!-- Abre el simulador en nueva pestaña -->
         <button class="nav-btn btn-simulador" onclick="window.open('https://luismi140905.github.io/Simuladores-practicas/', '_blank')">4. Simulador ➔</button>
     </div>
 
@@ -227,18 +229,20 @@
         
         <ul class="credits-list" style="text-align: center;">
             <li style="font-size: 1.2rem; margin-bottom: 0.5rem; display: block;"><span>Universidad Nacional Autónoma de México (UNAM)</span></li>
-            <li><span>Facultad:</span> Facultad de Ingeniería</li>
-            <li><span>División:</span> División de Ciencias Básicas</li>
-            <li><span>Área/Departamento:</span> Laboratorio de Electricidad y Magnetismo</li>
+            <li><span>Facultad de Ingeniería</span></li>
+            <li><span>División de Ciencias Básicas</span></li>
+            <li><span>Laboratorio de Electricidad y Magnetismo</span></li>
         </ul>
 
+        <!-- Espacio para la imagen de la práctica -->
         <div style="text-align: center; margin: 2rem 0;">
-            <img src="tu_imagen.jpg" alt="Esquema de la práctica" style="max-width: 80%; height: auto; border-radius: 8px; border: 1px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.4);">
+            <img src="tu_imagen.jpg" alt="Esquema o imagen representativa de la práctica" style="max-width: 80%; height: auto; border-radius: 8px; border: 1px solid var(--accent-color); box-shadow: 0 4px 8px rgba(0,0,0,0.4);">
         </div>
 
         <h3 style="color: var(--highlight); border-bottom: 1px solid var(--accent-color); padding-bottom: 10px; margin-top: 2rem; text-align: center;">Desarrollo</h3>
         <ul class="credits-list" style="text-align: center;">
-            <li><span>Desarrollador:</span> Luis Miguel Pérez Acolt</li>
+            <li>Luis Miguel Pérez Acolt</li>
+            <li>Valeria Estefanía Urrutia Ortuño</li>
         </ul>
 
         <button class="btn-continue" onclick="showSection('teoria')">Continuar a la Teoría</button>
@@ -273,8 +277,6 @@
         <p>1. Ajusta los valores de la corriente y la longitud del conductor.</p>
         <p>2. Modifica la intensidad y dirección del campo magnético.</p>
         <p>3. Observa el vector de fuerza resultante en el modelo 3D.</p>
-        
-        <!-- El botón final ahora también dirige a la pestaña nueva -->
         <button class="btn-continue" onclick="window.open('https://luismi140905.github.io/Simuladores-practicas/', '_blank')">Abrir Simulador ➔</button>
     </div>
 
@@ -284,7 +286,7 @@
                 sec.classList.remove('active');
             });
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                // Solo quita la clase 'active' de los botones de sección, no del botón del simulador
+                // No quita la clase active si es el botón de enlace al simulador
                 if(!btn.classList.contains('btn-simulador')) {
                     btn.classList.remove('active');
                 }
